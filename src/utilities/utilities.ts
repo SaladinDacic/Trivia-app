@@ -1,6 +1,4 @@
-export function incrementedIdx(idx: number): number {
-  return ++idx;
-}
+
 export function isLastElement(idx: number, length: number): boolean {
   return idx > length - 1;
 }

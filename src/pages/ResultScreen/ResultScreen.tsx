@@ -10,11 +10,13 @@ export function ResultScreen({
   startOver?: () => void;
 }) {
   const currentPage = "result";
-
+  const resultNumber = resultBody.reduce((acc, objVal, i): number => {
+    return (acc = objVal.success ? acc + 1 : acc + 0);
+  }, 0);
   return (
     <div className="resultScreen">
       <HeaderQuote quote={headerQuote} />
-      <h1>{"1"} of 10</h1>
+      <h1>{resultNumber} of 10</h1>
       <AnswerList resultBody={resultBody} />
       <GameStarter currentPage={currentPage} startOver={startOver} />
     </div>

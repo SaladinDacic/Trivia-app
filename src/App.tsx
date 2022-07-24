@@ -1,12 +1,7 @@
 import { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { getQuestions } from "./api";
-import {
-  incrementedIdx,
-  formatedQuestion,
-  formatAnswers,
-  isLastElement,
-} from "./utilities";
+import { formatedQuestion, formatAnswers, isLastElement } from "./utilities";
 import "./App.scss";
 import { HomeScreen, QuizScreen, ResultScreen } from "./pages";
 
@@ -22,6 +17,7 @@ function App() {
     { success: boolean; question: string }[]
   >([]);
   const [isEnd, setIsEnd] = useState(false);
+  const [idx, setIdx] = useState(0);
   //============================
 
   //home page
@@ -32,20 +28,20 @@ function App() {
   //quiz page
   const quizBody = questionObj?.question;
   function updateQuestion(): void {
-    const idx = incrementedIdx(questionObj?.idx);
     let question;
+    const newIdx = idx + 1;
 
-    question = recivedData?.results[idx]
-      ? formatedQuestion(recivedData?.results[idx].question)
+    question = recivedData?.results[newIdx]
+      ? formatedQuestion(recivedData?.results[newIdx].question)
       : question;
 
-    if (isLastElement(idx, recivedData?.results.length)) {
+    if (isLastElement(newIdx, recivedData?.results.length)) {
       setIsEnd(true);
-      setResult(formatAnswers(answers, recivedData));
     } else {
-      setQuestionObj({ question, idx });
-      setQuizHeader(recivedData?.results[idx].category);
+      setQuestionObj({ question, newIdx });
+      setQuizHeader(recivedData?.results[newIdx].category);
     }
+    setIdx(newIdx);
   }
   function setAnswer(newVal: boolean) {
     setAnswers((oldArr: boolean[]): boolean[] => {
@@ -71,6 +67,10 @@ function App() {
     console.log(recivedData);
   }, [recivedData]);
   //============================
+  useEffect(() => {
+    console.log(answers);
+    setResult(formatAnswers(answers, recivedData));
+  }, [answers, recivedData]);
 
   return (
     <div className="App">
@@ -87,7 +87,7 @@ function App() {
               quoteBody={quizBody}
               isEnd={isEnd}
               updateQuestion={updateQuestion}
-              pageIdx={questionObj?.idx + 1}
+              pageIdx={idx + 1}
               setAnswer={setAnswer}
             />
           }
