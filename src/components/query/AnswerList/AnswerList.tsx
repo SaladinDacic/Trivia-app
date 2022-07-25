@@ -10,9 +10,11 @@ export function AnswerList({
         <p className="answerList__container--success">
           {result.success ? "+" : "-"}
         </p>
-        <p className="answerList__container--answer" key={i}>
-          {result.question}
-        </p>
+        <p
+          className="answerList__container--answer"
+          key={i}
+          dangerouslySetInnerHTML={{ __html: result.question }}
+        ></p>
       </div>
     )
   );

@@ -40,8 +40,8 @@ function App() {
     } else {
       setQuestionObj({ question, newIdx });
       setQuizHeader(recivedData?.results[newIdx].category);
+      setIdx(newIdx);
     }
-    setIdx(newIdx);
   }
   function setAnswer(newVal: boolean) {
     setAnswers((oldArr: boolean[]): boolean[] => {
@@ -58,6 +58,7 @@ function App() {
     setAnswers([]);
     setQuizHeader(question);
     setQuestionObj({ question, idx: 0 });
+    setIdx(0);
   }
   //============================
   useEffect(() => {
